@@ -180,6 +180,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         <div class="security-notice">
             <strong>🔒 Secure Area:</strong> This is an administrative login. Access is restricted to authorized personnel only.
+            <br><small><strong>Default Admin:</strong> admin@example.com / admin123</small>
         </div>
         
         <?php if ($errors): ?>
