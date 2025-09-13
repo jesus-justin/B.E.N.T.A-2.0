@@ -51,153 +51,7 @@ $netIncome = $monthlyIncome - $monthlyExpense;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - BENTA</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f7fa;
-            color: #333;
-        }
-        
-        .topbar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .topbar a {
-            color: white;
-            text-decoration: none;
-            margin-right: 1rem;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-        
-        .topbar a:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        h1 {
-            color: #333;
-            margin-bottom: 2rem;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .stat-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        
-        .stat-card h3 {
-            color: #666;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
-        
-        .stat-card .amount {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-        
-        .income { color: #27ae60; }
-        .expense { color: #e74c3c; }
-        .net { color: #3498db; }
-        
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-        
-        .card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .card h2 {
-            margin-bottom: 1rem;
-            color: #333;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 0.5rem;
-        }
-        
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .data-table th,
-        .data-table td {
-            padding: 0.75rem;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .data-table th {
-            background: #f8f9fa;
-            font-weight: 600;
-            color: #555;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 0.5rem 0.5rem 0.5rem 0;
-            transition: transform 0.2s;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        .btn-secondary {
-            background: #6c757d;
-        }
-        
-        @media (max-width: 768px) {
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .topbar {
-                flex-direction: column;
-                gap: 1rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <header class="topbar">
@@ -213,35 +67,75 @@ $netIncome = $monthlyIncome - $monthlyExpense;
     </header>
     
     <main class="container">
-        <h1>Dashboard</h1>
+        <div class="page-header">
+            <h1>Dashboard</h1>
+            <p>Welcome back! Here's your financial overview</p>
+        </div>
         
         <div class="stats-grid">
-            <div class="stat-card">
+            <div class="stat-card income">
                 <h3>Monthly Income</h3>
-                <div class="amount income">₱<?= number_format($monthlyIncome, 2) ?></div>
+                <div class="amount">₱<?= number_format($monthlyIncome, 2) ?></div>
+                <div class="stat-trend">+12% from last month</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card expense">
                 <h3>Monthly Expenses</h3>
-                <div class="amount expense">₱<?= number_format($monthlyExpense, 2) ?></div>
+                <div class="amount">₱<?= number_format($monthlyExpense, 2) ?></div>
+                <div class="stat-trend">-5% from last month</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card net">
                 <h3>Net Income</h3>
-                <div class="amount net">₱<?= number_format($netIncome, 2) ?></div>
+                <div class="amount">₱<?= number_format($netIncome, 2) ?></div>
+                <div class="stat-trend"><?= $netIncome >= 0 ? 'Positive' : 'Negative' ?> balance</div>
             </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <a href="add_transaction.php" class="quick-action">
+                <span class="quick-action-icon">💰</span>
+                <h3>Add Income</h3>
+                <p>Record new income transaction</p>
+            </a>
+            <a href="add_expense.php" class="quick-action">
+                <span class="quick-action-icon">💸</span>
+                <h3>Add Expense</h3>
+                <p>Record new expense</p>
+            </a>
+            <a href="expenses.php" class="quick-action">
+                <span class="quick-action-icon">📊</span>
+                <h3>View Expenses</h3>
+                <p>Manage your expenses</p>
+            </a>
+            <a href="reports.php" class="quick-action">
+                <span class="quick-action-icon">📈</span>
+                <h3>Reports</h3>
+                <p>View financial reports</p>
+            </a>
         </div>
         
         <div class="content-grid">
             <div class="card">
-                <h2>Recent Transactions</h2>
+                <div class="card-header">
+                    <h2>Recent Transactions</h2>
+                    <a href="add_transaction.php" class="btn btn-primary btn-sm">Add New</a>
+                </div>
                 <?php if (empty($transactions)): ?>
-                    <p>No transactions yet. <a href="add_transaction.php">Add your first transaction</a></p>
+                    <div class="empty-state">
+                        <div class="empty-icon">💰</div>
+                        <h3>No transactions yet</h3>
+                        <p>Start tracking your income by adding your first transaction</p>
+                        <a href="add_transaction.php" class="btn btn-primary">Add Transaction</a>
+                    </div>
                 <?php else: ?>
                     <table class="data-table">
                         <thead>
                             <tr>
                                 <th>Date</th>
                                 <th>Category</th>
+                                <th>Description</th>
                                 <th>Amount</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -249,7 +143,12 @@ $netIncome = $monthlyIncome - $monthlyExpense;
                             <tr>
                                 <td><?= e($t['trx_date']) ?></td>
                                 <td><?= e($t['category_name']) ?></td>
+                                <td><?= e($t['description'] ?: 'No description') ?></td>
                                 <td class="income">₱<?= number_format($t['amount'], 2) ?></td>
+                                <td>
+                                    <a href="edit_transaction.php?id=<?= e($t['id']) ?>" class="btn btn-sm btn-info">Edit</a>
+                                    <a href="delete_transaction.php?id=<?= e($t['id']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this transaction?')">Delete</a>
+                                </td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -258,16 +157,26 @@ $netIncome = $monthlyIncome - $monthlyExpense;
             </div>
             
             <div class="card">
-                <h2>Recent Expenses</h2>
+                <div class="card-header">
+                    <h2>Recent Expenses</h2>
+                    <a href="add_expense.php" class="btn btn-primary btn-sm">Add New</a>
+                </div>
                 <?php if (empty($expenses)): ?>
-                    <p>No expenses yet. <a href="add_expense.php">Add your first expense</a></p>
+                    <div class="empty-state">
+                        <div class="empty-icon">💸</div>
+                        <h3>No expenses yet</h3>
+                        <p>Start tracking your expenses by adding your first expense</p>
+                        <a href="add_expense.php" class="btn btn-primary">Add Expense</a>
+                    </div>
                 <?php else: ?>
                     <table class="data-table">
                         <thead>
                             <tr>
                                 <th>Date</th>
                                 <th>Category</th>
+                                <th>Vendor</th>
                                 <th>Amount</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -275,7 +184,12 @@ $netIncome = $monthlyIncome - $monthlyExpense;
                             <tr>
                                 <td><?= e($e['expense_date']) ?></td>
                                 <td><?= e($e['category_name']) ?></td>
+                                <td><?= e($e['vendor'] ?: 'No vendor') ?></td>
                                 <td class="expense">₱<?= number_format($e['amount'], 2) ?></td>
+                                <td>
+                                    <a href="edit_expense.php?id=<?= e($e['id']) ?>" class="btn btn-sm btn-info">Edit</a>
+                                    <a href="delete_expense.php?id=<?= e($e['id']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this expense?')">Delete</a>
+                                </td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -283,12 +197,8 @@ $netIncome = $monthlyIncome - $monthlyExpense;
                 <?php endif; ?>
             </div>
         </div>
-        
-        <div style="margin-top: 2rem;">
-            <a href="add_expense.php" class="btn">Add Expense</a>
-            <a href="expenses.php" class="btn btn-secondary">View All Expenses</a>
-            <a href="reports.php" class="btn btn-secondary">View Reports</a>
-        </div>
     </main>
+    
+    <script src="assets/js/animations.js"></script>
 </body>
 </html>

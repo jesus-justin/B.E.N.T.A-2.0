@@ -16,33 +16,93 @@ $stmt = $pdo->prepare("SELECT e.*, c.name category FROM expenses e LEFT JOIN cat
 $stmt->execute($params);
 $rows = $stmt->fetchAll();
 ?>
-<!doctype html>
-<html><head><meta charset="utf-8"><title>Expenses</title><link rel="stylesheet" href="assets/css/style.css"></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenses - BENTA</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
 <body>
-<header class="topbar"><a href="dashboard.php">Back</a> | <a href="add_expense.php">Add Expense</a></header>
-<main class="container">
-  <h2>Expenses</h2>
-  <form method="get" style="margin-bottom:12px;">
-    <input name="q" placeholder="Search vendor or note" value="<?=e($_GET['q'] ?? '')?>">
-    <button>Search</button>
-  </form>
-  <table class="data-table">
-    <thead><tr><th>Date</th><th>Category</th><th>Vendor</th><th>Amount</th><th>Note</th><th>Actions</th></tr></thead>
-    <tbody>
-      <?php foreach($rows as $r): ?>
-      <tr>
-        <td><?=e($r['expense_date'])?></td>
-        <td><?=e($r['category'])?></td>
-        <td><?=e($r['vendor'])?></td>
-        <td><?=e(number_format($r['amount'],2))?></td>
-        <td><?=e($r['note'])?></td>
-        <td>
-          <a href="edit_expense.php?id=<?=e($r['id'])?>">Edit</a> |
-          <a href="delete_expense.php?id=<?=e($r['id'])?>" onclick="return confirm('Delete this expense?')">Delete</a>
-        </td>
-      </tr>
-      <?php endforeach;?>
-    </tbody>
-  </table>
-</main>
-</body></html>
+    <header class="topbar">
+        <div><strong>BENTA</strong> - Expenses</div>
+        <nav>
+            <a href="dashboard.php">Dashboard</a>
+            <a href="expenses.php">Expenses</a>
+            <a href="reports.php">Reports</a>
+            <a href="logout.php">Logout</a>
+        </nav>
+    </header>
+    
+    <main class="container">
+        <div class="page-header">
+            <h1>Expenses</h1>
+            <p>Manage and track your expenses</p>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2>Search Expenses</h2>
+                <a href="add_expense.php" class="btn btn-primary btn-sm">Add New Expense</a>
+            </div>
+            
+            <form method="get" class="form-inline">
+                <div class="form-group">
+                    <input name="q" placeholder="Search vendor or note" value="<?= e($_GET['q'] ?? '') ?>" class="search-input">
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+                <?php if (!empty($_GET['q'])): ?>
+                    <a href="expenses.php" class="btn btn-secondary">Clear</a>
+                <?php endif; ?>
+            </form>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2>Expense List</h2>
+                <span class="expense-count"><?= count($rows) ?> expenses</span>
+            </div>
+            
+            <?php if (empty($rows)): ?>
+                <div class="empty-state">
+                    <div class="empty-icon">💸</div>
+                    <h3>No expenses found</h3>
+                    <p><?= !empty($_GET['q']) ? 'Try adjusting your search criteria' : 'Start tracking your expenses by adding your first expense' ?></p>
+                    <a href="add_expense.php" class="btn btn-primary">Add Expense</a>
+                </div>
+            <?php else: ?>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Category</th>
+                            <th>Vendor</th>
+                            <th>Amount</th>
+                            <th>Note</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($rows as $r): ?>
+                        <tr>
+                            <td><?= e($r['expense_date']) ?></td>
+                            <td><?= e($r['category']) ?></td>
+                            <td><?= e($r['vendor'] ?: 'No vendor') ?></td>
+                            <td class="expense">₱<?= number_format($r['amount'], 2) ?></td>
+                            <td><?= e($r['note'] ?: 'No note') ?></td>
+                            <td>
+                                <a href="edit_expense.php?id=<?= e($r['id']) ?>" class="btn btn-sm btn-info">Edit</a>
+                                <a href="delete_expense.php?id=<?= e($r['id']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this expense?')">Delete</a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+        </div>
+    </main>
+    
+    <script src="assets/js/animations.js"></script>
+</body>
+</html>
