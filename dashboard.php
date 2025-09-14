@@ -44,6 +44,42 @@ $totalExpense->execute([$uid, $currentMonth]);
 $monthlyExpense = $totalExpense->fetchColumn();
 
 $netIncome = $monthlyIncome - $monthlyExpense;
+
+// Get last month data for comparison
+$lastMonth = date('Y-m', strtotime('-1 month'));
+$lastMonthIncome = $pdo->prepare("SELECT COALESCE(SUM(amount), 0) FROM transactions WHERE user_id = ? AND DATE_FORMAT(trx_date, '%Y-%m') = ?");
+$lastMonthIncome->execute([$uid, $lastMonth]);
+$lastMonthIncomeValue = $lastMonthIncome->fetchColumn();
+
+$lastMonthExpense = $pdo->prepare("SELECT COALESCE(SUM(amount), 0) FROM expenses WHERE user_id = ? AND DATE_FORMAT(expense_date, '%Y-%m') = ?");
+$lastMonthExpense->execute([$uid, $lastMonth]);
+$lastMonthExpenseValue = $lastMonthExpense->fetchColumn();
+
+// Calculate percentage changes
+$incomeChange = $lastMonthIncomeValue > 0 ? (($monthlyIncome - $lastMonthIncomeValue) / $lastMonthIncomeValue) * 100 : 0;
+$expenseChange = $lastMonthExpenseValue > 0 ? (($monthlyExpense - $lastMonthExpenseValue) / $lastMonthExpenseValue) * 100 : 0;
+
+// Get top expense categories
+$topExpenseCategories = $pdo->prepare("
+    SELECT c.name, SUM(e.amount) as total, COUNT(e.id) as count
+    FROM expenses e 
+    JOIN categories c ON c.id = e.category_id 
+    WHERE e.user_id = ? AND DATE_FORMAT(e.expense_date, '%Y-%m') = ?
+    GROUP BY c.id, c.name 
+    ORDER BY total DESC 
+    LIMIT 5
+");
+$topExpenseCategories->execute([$uid, $currentMonth]);
+$expenseCategories = $topExpenseCategories->fetchAll();
+
+// Get total transactions and expenses count
+$totalTransactionsCount = $pdo->prepare("SELECT COUNT(*) FROM transactions WHERE user_id = ?");
+$totalTransactionsCount->execute([$uid]);
+$transactionsCount = $totalTransactionsCount->fetchColumn();
+
+$totalExpensesCount = $pdo->prepare("SELECT COUNT(*) FROM expenses WHERE user_id = ?");
+$totalExpensesCount->execute([$uid]);
+$expensesCount = $totalExpensesCount->fetchColumn();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,6 +88,8 @@ $netIncome = $monthlyIncome - $monthlyExpense;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - BENTA</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <header class="topbar">
@@ -74,19 +112,56 @@ $netIncome = $monthlyIncome - $monthlyExpense;
         
         <div class="stats-grid">
             <div class="stat-card income">
-                <h3>Monthly Income</h3>
-                <div class="amount">₱<?= number_format($monthlyIncome, 2) ?></div>
-                <div class="stat-trend">+12% from last month</div>
+                <div class="stat-icon">
+                    <i class="fas fa-arrow-up"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Monthly Income</h3>
+                    <div class="amount">₱<?= number_format($monthlyIncome, 2) ?></div>
+                    <div class="stat-trend <?= $incomeChange >= 0 ? 'positive' : 'negative' ?>">
+                        <i class="fas fa-<?= $incomeChange >= 0 ? 'arrow-up' : 'arrow-down' ?>"></i>
+                        <?= abs(round($incomeChange, 1)) ?>% from last month
+                    </div>
+                </div>
             </div>
             <div class="stat-card expense">
-                <h3>Monthly Expenses</h3>
-                <div class="amount">₱<?= number_format($monthlyExpense, 2) ?></div>
-                <div class="stat-trend">-5% from last month</div>
+                <div class="stat-icon">
+                    <i class="fas fa-arrow-down"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Monthly Expenses</h3>
+                    <div class="amount">₱<?= number_format($monthlyExpense, 2) ?></div>
+                    <div class="stat-trend <?= $expenseChange <= 0 ? 'positive' : 'negative' ?>">
+                        <i class="fas fa-<?= $expenseChange <= 0 ? 'arrow-down' : 'arrow-up' ?>"></i>
+                        <?= abs(round($expenseChange, 1)) ?>% from last month
+                    </div>
+                </div>
             </div>
             <div class="stat-card net">
-                <h3>Net Income</h3>
-                <div class="amount">₱<?= number_format($netIncome, 2) ?></div>
-                <div class="stat-trend"><?= $netIncome >= 0 ? 'Positive' : 'Negative' ?> balance</div>
+                <div class="stat-icon">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Net Income</h3>
+                    <div class="amount">₱<?= number_format($netIncome, 2) ?></div>
+                    <div class="stat-trend <?= $netIncome >= 0 ? 'positive' : 'negative' ?>">
+                        <i class="fas fa-<?= $netIncome >= 0 ? 'check-circle' : 'exclamation-triangle' ?>"></i>
+                        <?= $netIncome >= 0 ? 'Positive' : 'Negative' ?> balance
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card transactions">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Total Records</h3>
+                    <div class="amount"><?= $transactionsCount + $expensesCount ?></div>
+                    <div class="stat-trend">
+                        <i class="fas fa-list"></i>
+                        <?= $transactionsCount ?> transactions, <?= $expensesCount ?> expenses
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -113,6 +188,31 @@ $netIncome = $monthlyIncome - $monthlyExpense;
                 <p>View financial reports</p>
             </a>
         </div>
+
+        <!-- Charts and Analytics Section -->
+        <?php if (!empty($expenseCategories)): ?>
+        <div class="analytics-section">
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-chart-pie"></i> Expense Categories This Month</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="expenseChart" width="400" height="200"></canvas>
+                </div>
+                <div class="category-breakdown">
+                    <?php foreach ($expenseCategories as $category): ?>
+                    <div class="category-item">
+                        <div class="category-info">
+                            <span class="category-name"><?= e($category['name']) ?></span>
+                            <span class="category-count"><?= $category['count'] ?> transactions</span>
+                        </div>
+                        <div class="category-amount">₱<?= number_format($category['total'], 2) ?></div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
         
         <div class="content-grid">
             <div class="card">
@@ -200,5 +300,360 @@ $netIncome = $monthlyIncome - $monthlyExpense;
     </main>
     
     <script src="assets/js/animations.js"></script>
+    <script src="assets/js/dark-mode.js"></script>
+    <script>
+        // Enhanced dashboard functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize expense chart if data exists
+            <?php if (!empty($expenseCategories)): ?>
+            const ctx = document.getElementById('expenseChart').getContext('2d');
+            const expenseData = <?= json_encode($expenseCategories) ?>;
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: expenseData.map(item => item.name),
+                    datasets: [{
+                        data: expenseData.map(item => parseFloat(item.total)),
+                        backgroundColor: [
+                            '#667eea',
+                            '#764ba2',
+                            '#f093fb',
+                            '#f5576c',
+                            '#4facfe',
+                            '#00f2fe',
+                            '#43e97b',
+                            '#38f9d7'
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                font: {
+                                    family: 'Inter, sans-serif',
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.parsed;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return context.label + ': ₱' + value.toLocaleString() + ' (' + percentage + '%)';
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        animateRotate: true,
+                        duration: 2000
+                    }
+                }
+            });
+            <?php endif; ?>
+
+            // Add interactive animations to stat cards
+            document.querySelectorAll('.stat-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                    this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Add loading animation to quick actions
+            document.querySelectorAll('.quick-action').forEach(action => {
+                action.addEventListener('click', function(e) {
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                    this.style.pointerEvents = 'none';
+                    
+                    // Reset after 2 seconds if no navigation occurs
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.style.pointerEvents = 'auto';
+                    }, 2000);
+                });
+            });
+
+            // Add real-time clock
+            function updateClock() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+                const dateString = now.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                // Update page title with time
+                document.title = `Dashboard - BENTA (${timeString})`;
+            }
+
+            // Update clock every second
+            setInterval(updateClock, 1000);
+            updateClock();
+
+            // Add smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Ctrl/Cmd + 1: Add Income
+                if ((e.ctrlKey || e.metaKey) && e.key === '1') {
+                    e.preventDefault();
+                    window.location.href = 'add_transaction.php';
+                }
+                // Ctrl/Cmd + 2: Add Expense
+                if ((e.ctrlKey || e.metaKey) && e.key === '2') {
+                    e.preventDefault();
+                    window.location.href = 'add_expense.php';
+                }
+                // Ctrl/Cmd + 3: View Reports
+                if ((e.ctrlKey || e.metaKey) && e.key === '3') {
+                    e.preventDefault();
+                    window.location.href = 'reports.php';
+                }
+            });
+
+            // Add notification for new features
+            if (!localStorage.getItem('benta_dashboard_tour')) {
+                setTimeout(() => {
+                    showNotification('Welcome to your enhanced dashboard! Use Ctrl+1,2,3 for quick actions.', 'info');
+                }, 2000);
+            }
+        });
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <i class="fas fa-${type === 'info' ? 'info-circle' : type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i>
+                    <span>${message}</span>
+                    <button class="notification-close" onclick="this.parentElement.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Mark tour as completed
+        function completeTour() {
+            localStorage.setItem('benta_dashboard_tour', 'completed');
+        }
+    </script>
+
+    <style>
+        /* Enhanced dashboard styles */
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .stat-card.income .stat-icon {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+
+        .stat-card.expense .stat-icon {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .stat-card.net .stat-icon {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .stat-card.transactions .stat-icon {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-trend.positive {
+            color: #27ae60;
+        }
+
+        .stat-trend.negative {
+            color: #e74c3c;
+        }
+
+        .stat-trend i {
+            margin-right: 0.25rem;
+        }
+
+        .analytics-section {
+            margin: 2rem 0;
+        }
+
+        .chart-container {
+            height: 300px;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .category-breakdown {
+            margin-top: 1rem;
+        }
+
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .category-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .category-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .category-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .category-count {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+
+        .category-amount {
+            font-weight: 700;
+            color: #e74c3c;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: #7f8c8d;
+            cursor: pointer;
+            padding: 0.25rem;
+        }
+
+        .notification-info {
+            border-left: 4px solid #3498db;
+        }
+
+        .notification-success {
+            border-left: 4px solid #27ae60;
+        }
+
+        .notification-warning {
+            border-left: 4px solid #f39c12;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive improvements */
+        @media (max-width: 768px) {
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .stat-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+        }
+    </style>
 </body>
 </html>

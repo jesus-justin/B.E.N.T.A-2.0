@@ -490,7 +490,17 @@ body {
     animation: bounce 0.6s ease-out;
 }
 
-/* Responsive Design */
+/* Enhanced Responsive Design */
+@media (max-width: 1200px) {
+    .container {
+        padding: 1.5rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
@@ -498,28 +508,284 @@ body {
     
     .content-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
     }
     
     .topbar {
         flex-direction: column;
         gap: 1rem;
         padding: 1rem;
+        text-align: center;
+    }
+    
+    .topbar nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
+    .topbar a {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
     }
     
     .form-actions {
         flex-direction: column;
+        gap: 0.75rem;
     }
     
     .btn {
         width: 100%;
+        padding: 1rem;
     }
     
     .stats-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .stat-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .stat-card .amount {
+        font-size: 2rem;
     }
     
     .quick-actions {
         grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .quick-action {
+        padding: 1.5rem 1rem;
+    }
+    
+    .quick-action-icon {
+        font-size: 1.5rem;
+    }
+    
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    
+    .page-header p {
+        font-size: 1rem;
+    }
+    
+    .data-table {
+        font-size: 0.9rem;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .card {
+        padding: 1.5rem;
+    }
+    
+    .card-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .card-header h2 {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0.75rem;
+    }
+    
+    .topbar {
+        padding: 0.75rem;
+    }
+    
+    .topbar nav {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .topbar a {
+        width: 100%;
+        text-align: center;
+        margin: 0;
+    }
+    
+    .page-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .stat-card {
+        padding: 1rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+    
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .stat-card .amount {
+        font-size: 1.8rem;
+    }
+    
+    .quick-action {
+        padding: 1rem;
+    }
+    
+    .quick-action h3 {
+        font-size: 1rem;
+    }
+    
+    .quick-action p {
+        font-size: 0.8rem;
+    }
+    
+    .card {
+        padding: 1rem;
+    }
+    
+    .data-table {
+        font-size: 0.8rem;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 0.5rem 0.25rem;
+    }
+    
+    .btn {
+        padding: 0.875rem;
+        font-size: 0.9rem;
+    }
+    
+    .btn-sm {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    .form-group label {
+        font-size: 0.8rem;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    .chart-container {
+        height: 250px;
+    }
+    
+    .category-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .category-amount {
+        align-self: flex-end;
+    }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+    .btn,
+    .quick-action,
+    .topbar a {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .data-table tr {
+        padding: 0.5rem 0;
+    }
+    
+    .stat-card:hover,
+    .card:hover,
+    .quick-action:hover {
+        transform: none;
+    }
+    
+    .btn:hover,
+    .topbar a:hover {
+        transform: none;
+    }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+    .topbar {
+        flex-direction: row;
+        padding: 0.5rem 1rem;
+    }
+    
+    .topbar nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .page-header {
+        margin-bottom: 1rem;
+    }
+    
+    .page-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .stat-card {
+        padding: 1rem;
+    }
+    
+    .stat-card .amount {
+        font-size: 1.5rem;
+    }
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .stat-icon,
+    .quick-action-icon {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .stat-card:hover,
+    .card:hover,
+    .quick-action:hover,
+    .btn:hover {
+        transform: none;
     }
 }
 
