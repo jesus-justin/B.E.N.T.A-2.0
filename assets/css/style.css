@@ -89,17 +89,25 @@ body {
     top: 0;
     z-index: 1000;
     animation: slideInRight 0.6s ease-out;
+    min-height: 70px;
 }
 
 .topbar a {
     color: white;
     text-decoration: none;
     margin-right: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
     transition: var(--transition);
     position: relative;
     overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 0.95rem;
+    min-height: 40px;
+    white-space: nowrap;
 }
 
 .topbar a::before {
@@ -119,6 +127,61 @@ body {
 
 .topbar a:hover {
     transform: translateY(-2px);
+}
+
+/* Topbar Brand */
+.topbar-brand {
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+/* Topbar Navigation */
+.topbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    font-weight: 500;
+    font-size: 0.9rem;
+    min-height: 40px;
+    white-space: nowrap;
+}
+
+.nav-link i {
+    font-size: 0.9rem;
+    width: 16px;
+    text-align: center;
+}
+
+.nav-link span {
+    font-size: 0.9rem;
+}
+
+.nav-link.active {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.nav-link.logout {
+    background: rgba(231, 76, 60, 0.2);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+}
+
+.nav-link.logout:hover {
+    background: rgba(231, 76, 60, 0.3);
+    border-color: rgba(231, 76, 60, 0.5);
 }
 
 /* Container */
@@ -518,16 +581,24 @@ body {
         text-align: center;
     }
     
-    .topbar nav {
+    .topbar-nav {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         gap: 0.5rem;
     }
     
-    .topbar a {
+    .nav-link {
         padding: 0.5rem 0.75rem;
         font-size: 0.9rem;
+    }
+    
+    .nav-link span {
+        display: none;
+    }
+    
+    .nav-link i {
+        font-size: 1rem;
     }
     
     .form-actions {
@@ -607,15 +678,20 @@ body {
         padding: 0.75rem;
     }
     
-    .topbar nav {
+    .topbar-nav {
         flex-direction: column;
         width: 100%;
     }
     
-    .topbar a {
+    .nav-link {
         width: 100%;
         text-align: center;
         margin: 0;
+        justify-content: center;
+    }
+    
+    .nav-link span {
+        display: inline;
     }
     
     .page-header h1 {
@@ -736,7 +812,7 @@ body {
         padding: 0.5rem 1rem;
     }
     
-    .topbar nav {
+    .topbar-nav {
         flex-direction: row;
         flex-wrap: wrap;
     }

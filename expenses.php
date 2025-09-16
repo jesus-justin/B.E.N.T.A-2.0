@@ -23,15 +23,30 @@ $rows = $stmt->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expenses - BENTA</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <header class="topbar">
-        <div><strong>BENTA</strong> - Expenses</div>
-        <nav>
-            <a href="dashboard.php">Dashboard</a>
-            <a href="expenses.php">Expenses</a>
-            <a href="reports.php">Reports</a>
-            <a href="logout.php">Logout</a>
+        <div class="topbar-brand">
+            <strong>BENTA</strong> - Expenses
+        </div>
+        <nav class="topbar-nav">
+            <a href="dashboard.php" class="nav-link">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="expenses.php" class="nav-link active">
+                <i class="fas fa-receipt"></i>
+                <span>Expenses</span>
+            </a>
+            <a href="reports.php" class="nav-link">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reports</span>
+            </a>
+            <a href="logout.php" class="nav-link logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
         </nav>
     </header>
     

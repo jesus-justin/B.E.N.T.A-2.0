@@ -361,6 +361,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             transform: translateX(3px);
         }
 
+        .admin-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .admin-login-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: var(--transition);
+        }
+
+        .admin-login-btn:hover::before {
+            left: 100%;
+        }
+
+        .admin-login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
+            color: white;
+        }
+
+        .admin-login-btn i {
+            font-size: 1rem;
+        }
+
         .features {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -397,6 +444,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             .features {
                 grid-template-columns: 1fr;
                 gap: 0.5rem;
+            }
+
+            .admin-login-btn {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.85rem;
             }
         }
 
@@ -481,6 +533,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="register.php">
                 <i class="fas fa-user-plus"></i>
                 Create New Account
+            </a>
+        </div>
+
+        <div class="admin-link">
+            <a href="admin_login.php" class="admin-login-btn">
+                <i class="fas fa-user-shield"></i>
+                Admin Login
             </a>
         </div>
 
