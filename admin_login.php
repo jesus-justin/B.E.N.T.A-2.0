@@ -10,6 +10,17 @@ if (!empty($_SESSION['admin_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Throttle brute-force attempts
+    if (throttle_is_limited('admin_login')) {
+        $errors[] = 'Too many attempts. Please try again later.';
+    }
+
+    // Verify CSRF token
+    $csrfToken = $_POST['csrf_token'] ?? '';
+    if (!verify_csrf_token($csrfToken)) {
+        $errors[] = 'Invalid request token. Please refresh and try again.';
+    }
+
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
     
@@ -34,12 +45,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Update last login
                 $updateLogin = $pdo->prepare("UPDATE admins SET last_login = NOW() WHERE id = ?");
                 $updateLogin->execute([$admin['id']]);
+
+                // Reset throttle on success
+                throttle_reset('admin_login');
                 
                 header('Location: admin_dashboard.php');
                 exit;
             }
         } else {
             $errors[] = 'Invalid username/email or password.';
+            throttle_hit('admin_login');
         }
     }
 }
@@ -510,6 +525,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
         
         <form method="POST" id="adminLoginForm">
+            <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
             <div class="form-group">
                 <label for="username">Username or Email</label>
                 <div class="input-wrapper">

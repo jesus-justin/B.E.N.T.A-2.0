@@ -1,5 +1,20 @@
 <?php
-// Start session
+// Start session with hardened cookie settings
+// Configure cookie params BEFORE session_start
+$isHttps = (
+    (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
+    (isset($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443)
+);
+
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'domain' => '',
+    'secure' => $isHttps,
+    'httponly' => true,
+    'samesite' => 'Lax',
+]);
+
 session_start();
 
 // Database configuration
@@ -58,5 +73,12 @@ function throttle_hit($key, $decaySeconds = 300) {
         $_SESSION[$bucketKey] = ['count' => 0, 'reset_at' => $now + $decaySeconds];
     }
     $_SESSION[$bucketKey]['count']++;
+}
+
+// Reset throttle bucket (e.g., after successful login)
+function throttle_reset($key) {
+    $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+    $bucketKey = "throttle_{$key}_{$ip}";
+    unset($_SESSION[$bucketKey]);
 }
 ?>
