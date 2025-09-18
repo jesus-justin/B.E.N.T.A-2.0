@@ -10,6 +10,17 @@ if (!empty($_SESSION['user_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Throttle brute-force attempts
+    if (throttle_is_limited('user_login')) {
+        $errors[] = 'Too many attempts. Please try again later.';
+    }
+
+    // Verify CSRF token
+    $csrfToken = $_POST['csrf_token'] ?? '';
+    if (!verify_csrf_token($csrfToken)) {
+        $errors[] = 'Invalid request token. Please refresh and try again.';
+    }
+
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
     
@@ -23,12 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if ($user && password_verify($password, $user['password'])) {
             // Login successful
+            session_regenerate_id(true);
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
+            throttle_reset('user_login');
             header('Location: dashboard.php');
             exit;
         } else {
             $errors[] = 'Invalid username/email or password.';
+            throttle_hit('user_login');
         }
     }
 }
@@ -504,6 +518,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
         
         <form method="POST" id="loginForm">
+            <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
             <div class="form-group">
                 <label for="username">Username or Email</label>
                 <div class="input-wrapper">
