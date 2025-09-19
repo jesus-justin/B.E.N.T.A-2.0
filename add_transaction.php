@@ -5,6 +5,10 @@ $uid = $_SESSION['user_id'];
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Verify CSRF
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        $errors[] = 'Invalid request token.';
+    }
     $category = intval($_POST['category'] ?? 0);
     $amount = floatval($_POST['amount'] ?? 0);
     $description = trim($_POST['description'] ?? '');
@@ -59,6 +63,7 @@ $cats = $pdo->query("SELECT * FROM categories WHERE type='income' ORDER BY name"
             <?php endif; ?>
             
             <form method="post" class="form" id="transactionForm">
+                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
                 <div class="form-group">
                     <label for="category">
                         <i class="fas fa-tags"></i>

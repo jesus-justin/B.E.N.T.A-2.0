@@ -15,6 +15,9 @@ $transaction = $stmt->fetch();
 if (!$transaction) header('Location: dashboard.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        $errors[] = 'Invalid request token.';
+    }
     $category = intval($_POST['category'] ?? 0);
     $amount = floatval($_POST['amount'] ?? 0);
     $description = trim($_POST['description'] ?? '');
@@ -68,6 +71,7 @@ $cats = $pdo->query("SELECT * FROM categories WHERE type='income' ORDER BY name"
             <?php endif; ?>
             
             <form method="post" class="form">
+                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
                 <div class="form-group">
                     <label for="category">Category</label>
                     <select name="category" id="category" required>
