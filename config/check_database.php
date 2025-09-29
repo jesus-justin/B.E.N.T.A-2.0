@@ -28,7 +28,7 @@ try {
         }
     }
 
-    echo "<br><a href='setup_database.php'>Setup Database</a> | <a href='index.php'>Go to App</a>";
+    echo "<br><a href='setup_database.php'>Setup Database</a> | <a href='../index.php'>Go to App</a>";
 
 } catch (PDOException $e) {
     echo "❌ Database Error: " . $e->getMessage();

@@ -1,6 +1,6 @@
 <?php
-require 'config.php';
-if (empty($_SESSION['user_id'])) header('Location: login.php');
+require '../config/config.php';
+if (empty($_SESSION['user_id'])) header('Location: ../auth/login.php');
 $uid = $_SESSION['user_id'];
 $id = intval($_GET['id'] ?? 0);
 if ($id <= 0) header('Location: expenses.php');
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $cats = $pdo->query("SELECT * FROM categories WHERE type='expense' ORDER BY name")->fetchAll();
 ?>
 <!doctype html>
-<html><head><meta charset="utf-8"><title>Edit Expense</title><link rel="stylesheet" href="assets/css/style.css"><link rel="stylesheet" href="assets/css/edit-expense.css"></head>
+<html><head><meta charset="utf-8"><title>Edit Expense</title><link rel="stylesheet" href="../assets/css/style.css"><link rel="stylesheet" href="../assets/css/edit-expense.css"></head>
 <body>
 <main class="container">
   <h2>Edit Expense</h2>

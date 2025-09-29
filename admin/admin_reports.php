@@ -1,5 +1,5 @@
 <?php
-require 'config.php';
+require '../config/config.php';
 
 // Check if admin is logged in
 if (empty($_SESSION['admin_id'])) {
@@ -71,8 +71,8 @@ $categoryUsage = $pdo->query("
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>System Reports - BENTA Admin</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/admin-reports.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/admin-reports.css">
 
 </head>
 <body>
@@ -245,7 +245,7 @@ $categoryUsage = $pdo->query("
     </main>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="assets/js/animations.js"></script>
+    <script src="../assets/js/animations.js"></script>
     <script>
         <?php if (!empty($monthlyData)): ?>
         // User Growth Chart

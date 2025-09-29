@@ -1,6 +1,6 @@
 <?php
-require 'config.php';
-if (empty($_SESSION['user_id'])) header('Location: login.php');
+require '../config/config.php';
+if (empty($_SESSION['user_id'])) header('Location: ../auth/login.php');
 $uid = $_SESSION['user_id'];
 
 // optional filter by month
@@ -22,8 +22,8 @@ $rows = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expenses - BENTA</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/expenses.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/expenses.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -119,6 +119,6 @@ $rows = $stmt->fetchAll();
         </div>
     </main>
     
-    <script src="assets/js/animations.js"></script>
+    <script src="../assets/js/animations.js"></script>
 </body>
 </html>

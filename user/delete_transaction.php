@@ -1,6 +1,6 @@
 <?php
-require 'config.php';
-if (empty($_SESSION['user_id'])) header('Location: login.php');
+require '../config/config.php';
+if (empty($_SESSION['user_id'])) header('Location: ../auth/login.php');
 $uid = $_SESSION['user_id'];
 
 // Require POST and valid CSRF

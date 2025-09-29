@@ -1,5 +1,5 @@
 <?php
-require 'config.php';
+require '../config/config.php';
 
 // Check if admin is logged in
 if (empty($_SESSION['admin_id'])) {
@@ -56,8 +56,8 @@ $systemInfo = [
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>System Settings - BENTA Admin</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/admin-settings.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/admin-settings.css">
 
 </head>
 <body>
@@ -186,7 +186,7 @@ $systemInfo = [
         <?php endif; ?>
     </main>
     
-    <script src="assets/js/animations.js"></script>
+    <script src="../assets/js/animations.js"></script>
     <script>
         // Password confirmation validation
         document.getElementById('confirm_password').addEventListener('input', function() {

@@ -1,6 +1,6 @@
 <?php
-require 'config.php';
-if (empty($_SESSION['user_id'])) header('Location: login.php');
+require '../config/config.php';
+if (empty($_SESSION['user_id'])) header('Location: ../auth/login.php');
 $uid = $_SESSION['user_id'];
 
 // date range defaults (last 6 months)
@@ -56,8 +56,8 @@ $expenseData = array_map(fn($m)=>$m['expense'],$months);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reports - BENTA</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/reports.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/reports.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -140,7 +140,7 @@ $expenseData = array_map(fn($m)=>$m['expense'],$months);
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="assets/js/animations.js"></script>
+    <script src="../assets/js/animations.js"></script>
     <script>
         // Enhanced Chart with animations
         const labels = <?= json_encode(array_values($labels)) ?>;

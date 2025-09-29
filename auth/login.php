@@ -1,17 +1,17 @@
 <?php
-require 'config.php';
+require '../config/config.php';
 
 $errors = [];
 
-// Redirect if already logged in as admin
-if (!empty($_SESSION['admin_id'])) {
-    header('Location: admin_dashboard.php');
+// Redirect if already logged in
+if (!empty($_SESSION['user_id'])) {
+    header('Location: dashboard.php');
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Throttle brute-force attempts
-    if (throttle_is_limited('admin_login')) {
+    if (throttle_is_limited('user_login')) {
         $errors[] = 'Too many attempts. Please try again later.';
     }
 
@@ -27,35 +27,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($username) || empty($password)) {
         $errors[] = 'Please enter both username and password.';
     } else {
-        // Check admin credentials
-        $stmt = $pdo->prepare("SELECT id, username, email, password, full_name, role, is_active FROM admins WHERE username = ? OR email = ?");
+        // Check user credentials
+        $stmt = $pdo->prepare("SELECT id, username, password FROM users WHERE username = ? OR email = ?");
         $stmt->execute([$username, $username]);
-        $admin = $stmt->fetch();
+        $user = $stmt->fetch();
         
-        if ($admin && password_verify($password, $admin['password'])) {
-            if (!$admin['is_active']) {
-                $errors[] = 'Your admin account has been deactivated.';
-            } else {
-                // Login successful
-                session_regenerate_id(true);
-                $_SESSION['admin_id'] = $admin['id'];
-                $_SESSION['admin_username'] = $admin['username'];
-                $_SESSION['admin_full_name'] = $admin['full_name'];
-                $_SESSION['admin_role'] = $admin['role'];
-                
-                // Update last login
-                $updateLogin = $pdo->prepare("UPDATE admins SET last_login = NOW() WHERE id = ?");
-                $updateLogin->execute([$admin['id']]);
-
-                // Reset throttle on success
-                throttle_reset('admin_login');
-                
-                header('Location: admin_dashboard.php');
-                exit;
-            }
+        if ($user && password_verify($password, $user['password'])) {
+            // Login successful
+            session_regenerate_id(true);
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            throttle_reset('user_login');
+            header('Location: ../user/dashboard.php');
+            exit;
         } else {
             $errors[] = 'Invalid username/email or password.';
-            throttle_hit('admin_login');
+            throttle_hit('user_login');
         }
     }
 }
@@ -65,38 +52,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - BENTA</title>
+    <title>Login - BENTA</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/admin-login.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/login.css">
 </head>
 <body>
     <div class="login-container">
-        <div class="admin-badge">
-            <i class="fas fa-shield-alt"></i>
-            ADMIN
-        </div>
-        
         <div class="logo-section">
             <div class="logo">
                 <i class="fas fa-chart-line"></i>
             </div>
-            <h1>BENTA Admin</h1>
+            <h1>BENTA</h1>
             <p class="subtitle">Business Expense & Net Transaction Analyzer</p>
-        </div>
-        
-        <div class="security-notice">
-            <strong>
-                <i class="fas fa-lock"></i>
-                Secure Administrative Area
-            </strong>
-            This is a restricted area for authorized personnel only. All access attempts are logged and monitored.
-            <small>
-                <strong>Demo Credentials:</strong> admin@example.com / admin123
-            </small>
         </div>
         
         <?php if ($errors): ?>
@@ -110,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endif; ?>
         
-        <form method="POST" id="adminLoginForm">
+        <form method="POST" id="loginForm">
             <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
             <div class="form-group">
                 <label for="username">Username or Email</label>
@@ -132,16 +103,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             
             <button type="submit" class="btn" id="loginBtn">
-                <span class="btn-text">Login as Admin</span>
+                <span class="btn-text">Sign In</span>
                 <div class="btn-loader"></div>
             </button>
         </form>
         
-        <div class="back-link">
-            <a href="index.php">
-                <i class="fas fa-arrow-left"></i>
-                Back to Main Application
+        <div class="register-link">
+            <a href="register.php">
+                <i class="fas fa-user-plus"></i>
+                Create New Account
             </a>
+        </div>
+
+        <div class="admin-link">
+            <a href="../admin/admin_login.php" class="admin-login-btn">
+                <i class="fas fa-user-shield"></i>
+                Admin Login
+            </a>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-chart-pie"></i>
+                <div>Track Expenses</div>
+            </div>
+            <div class="feature">
+                <i class="fas fa-chart-bar"></i>
+                <div>Generate Reports</div>
+            </div>
+            <div class="feature">
+                <i class="fas fa-mobile-alt"></i>
+                <div>Mobile Friendly</div>
+            </div>
         </div>
     </div>
 
@@ -163,17 +156,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Form submission with loading state
-        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
             const btn = document.getElementById('loginBtn');
             const btnText = btn.querySelector('.btn-text');
             
             btn.classList.add('loading');
-            btnText.textContent = 'Authenticating...';
+            btnText.textContent = 'Signing In...';
             
             // Re-enable after 3 seconds if no redirect occurs
             setTimeout(() => {
                 btn.classList.remove('loading');
-                btnText.textContent = 'Login as Admin';
+                btnText.textContent = 'Sign In';
             }, 3000);
         });
 
@@ -191,10 +184,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Add enter key support for form submission
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                document.getElementById('adminLoginForm').submit();
+                document.getElementById('loginForm').submit();
             }
         });
+
+        // Add some interactive animations
+        document.querySelectorAll('.feature').forEach(feature => {
+            feature.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.transition = 'transform 0.3s ease';
+            });
+            
+            feature.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
     </script>
-    <script src="assets/js/dark-mode.js"></script>
+    <script src="../assets/js/dark-mode.js"></script>
 </body>
 </html>

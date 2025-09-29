@@ -1,9 +1,9 @@
 <?php
-require 'config.php';
+require '../config/config.php';
 
 // Redirect to login if not authenticated
 if (empty($_SESSION['user_id'])) {
-    header('Location: login.php');
+    header('Location: ../auth/login.php');
     exit;
 }
 
@@ -87,9 +87,9 @@ $expensesCount = $totalExpensesCount->fetchColumn();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - BENTA</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 </head>
@@ -111,7 +111,7 @@ $expensesCount = $totalExpensesCount->fetchColumn();
                 <i class="fas fa-chart-bar"></i>
                 <span>Reports</span>
             </a>
-            <a href="logout.php" class="nav-link logout">
+            <a href="../auth/logout.php" class="nav-link logout">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Logout</span>
             </a>
@@ -313,8 +313,8 @@ $expensesCount = $totalExpensesCount->fetchColumn();
         </div>
     </main>
     
-    <script src="assets/js/animations.js"></script>
-    <script src="assets/js/dark-mode.js"></script>
+    <script src="../assets/js/animations.js"></script>
+    <script src="../assets/js/dark-mode.js"></script>
     <script>
         // Enhanced dashboard functionality
         document.addEventListener('DOMContentLoaded', function() {

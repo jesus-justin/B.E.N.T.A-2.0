@@ -81,7 +81,7 @@ try {
     echo "✅ Default categories inserted successfully!<br>";
 
     echo "<br><strong>🎉 Database setup completed successfully!</strong><br>";
-    echo "<a href='register.php'>Go to Registration</a> | <a href='login.php'>Go to Login</a>";
+    echo "<a href='../auth/register.php'>Go to Registration</a> | <a href='../auth/login.php'>Go to Login</a>";
 
 } catch (PDOException $e) {
     echo "❌ Error: " . $e->getMessage();

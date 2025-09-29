@@ -49,7 +49,7 @@ try {
     echo "✅ User table updated with admin fields!<br>";
 
     echo "<br><strong>🎉 Admin system setup completed!</strong><br>";
-    echo "<a href='admin_login.php'>Go to Admin Login</a> | <a href='index.php'>Go to Main App</a>";
+    echo "<a href='../admin/admin_login.php'>Go to Admin Login</a> | <a href='../index.php'>Go to Main App</a>";
 
 } catch (PDOException $e) {
     echo "❌ Error: " . $e->getMessage();

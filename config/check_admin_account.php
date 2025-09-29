@@ -68,7 +68,7 @@ try {
     echo "<strong>Login Credentials:</strong><br>";
     echo "Email: <strong>$adminEmail</strong><br>";
     echo "Password: <strong>$adminPassword</strong><br>";
-    echo "<br><a href='admin_login.php'>Go to Admin Login</a> | <a href='index.php'>Go to Main App</a>";
+    echo "<br><a href='../admin/admin_login.php'>Go to Admin Login</a> | <a href='../index.php'>Go to Main App</a>";
 
 } catch (PDOException $e) {
     echo "❌ Error: " . $e->getMessage();
