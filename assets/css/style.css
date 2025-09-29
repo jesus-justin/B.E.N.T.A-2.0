@@ -251,51 +251,6 @@ body {
     margin-bottom: 2rem;
 }
 
-.stat-card {
-    background: white;
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    text-align: center;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-    animation: fadeInUp 0.6s ease-out;
-}
-
-.stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-}
-
-.stat-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: var(--shadow-hover);
-}
-
-.stat-card h3 {
-    color: var(--light-text);
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.stat-card .amount {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-}
-
-.stat-card.income .amount { color: var(--success-color); }
-.stat-card.expense .amount { color: var(--error-color); }
-.stat-card.net .amount { color: var(--info-color); }
-
 /* Content Grid */
 .content-grid {
     display: grid;
@@ -630,14 +585,6 @@ body {
         gap: 1rem;
     }
     
-    .stat-card {
-        padding: 1.5rem 1rem;
-    }
-    
-    .stat-card .amount {
-        font-size: 2rem;
-    }
-    
     .quick-actions {
         grid-template-columns: 1fr;
         gap: 1rem;
@@ -782,16 +729,6 @@ body {
     
     .chart-container {
         height: 250px;
-    }
-    
-    .category-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-    
-    .category-amount {
-        align-self: flex-end;
     }
 }
 
