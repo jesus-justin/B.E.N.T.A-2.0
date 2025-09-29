@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $cats = $pdo->query("SELECT * FROM categories WHERE type='expense' ORDER BY name")->fetchAll();
 ?>
 <!doctype html>
-<html><head><meta charset="utf-8"><title>Edit Expense</title><link rel="stylesheet" href="assets/css/style.css"></head>
+<html><head><meta charset="utf-8"><title>Edit Expense</title><link rel="stylesheet" href="assets/css/style.css"><link rel="stylesheet" href="assets/css/edit-expense.css"></head>
 <body>
 <main class="container">
   <h2>Edit Expense</h2>

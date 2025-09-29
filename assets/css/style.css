@@ -352,48 +352,6 @@ body {
     margin: 0 auto;
 }
 
-.form-group {
-    margin-bottom: 1.5rem;
-    animation: fadeInUp 0.6s ease-out;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: var(--dark-text);
-    font-weight: 500;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 2px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 1rem;
-    transition: var(--transition);
-    background: white;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    transform: translateY(-2px);
-}
-
-.form-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: 2rem;
-}
-
-
-
 /* Alerts */
 .alert {
     padding: 1rem;
@@ -532,11 +490,6 @@ body {
         font-size: 1rem;
     }
     
-    .form-actions {
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-    
     .btn {
         width: 100%;
         padding: 1rem;
@@ -656,21 +609,6 @@ body {
         font-size: 0.8rem;
     }
     
-    .form-group {
-        margin-bottom: 1rem;
-    }
-    
-    .form-group label {
-        font-size: 0.8rem;
-    }
-    
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        padding: 0.75rem;
-        font-size: 0.9rem;
-    }
-    
 }
 
 /* Touch-friendly improvements */
@@ -758,8 +696,7 @@ body {
 /* Print Styles */
 @media print {
     .topbar,
-    .btn,
-    .form-actions {
+    .btn {
         display: none;
     }
     
@@ -858,13 +795,5 @@ body {
     
     .card {
         background: #2a2a2a;
-    }
-    
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        background: #2a2a2a;
-        color: var(--dark-text);
-        border-color: var(--border-color);
     }
 }
