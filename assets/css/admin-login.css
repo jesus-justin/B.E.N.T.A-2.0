@@ -175,7 +175,8 @@ h1 {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="number"] {
     width: 100%;
     padding: 1rem 1rem 1rem 3rem;
     border: 2px solid var(--border-color);
@@ -188,11 +189,60 @@ input[type="password"] {
 }
 
 input[type="text"]:focus,
-input[type="password"]:focus {
+input[type="password"]:focus,
+input[type="number"]:focus {
     outline: none;
     border-color: #667eea;
     box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
     transform: translateY(-2px);
+}
+
+/* Admin CAPTCHA Styles */
+.captcha-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.captcha-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem;
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe6e6 100%);
+    border-radius: 8px;
+    border: 1px solid rgba(231, 76, 60, 0.2);
+    margin-bottom: 0.5rem;
+}
+
+.captcha-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--error-color);
+    letter-spacing: 0.5px;
+}
+
+.captcha-refresh {
+    background: none;
+    border: none;
+    color: var(--error-color);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.captcha-refresh:hover {
+    background: rgba(231, 76, 60, 0.1);
+    transform: rotate(180deg);
+}
+
+.captcha-refresh i {
+    transition: transform 0.3s ease;
 }
 
 input[type="text"]:focus + i,

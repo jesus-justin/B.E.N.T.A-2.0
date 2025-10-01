@@ -17,6 +17,17 @@
     padding: 1rem;
     text-align: left;
     border-bottom: 1px solid var(--border-color);
+    color: var(--dark-text) !important;
+}
+
+/* Additional specificity for table body text */
+.data-table tbody td {
+    color: #2c3e50 !important;
+}
+
+/* Ensure all table content is visible */
+.data-table * {
+    color: inherit;
 }
 
 .data-table th {
@@ -291,4 +302,15 @@
     .search-section {
         padding: 0 0.5rem;
     }
+}
+
+/* CRITICAL FIX: Ensure expense table text is always visible */
+/* This override fixes any white text issues in the expense table */
+.data-table tr td:not(.expense) {
+    color: #2c3e50 !important;
+    font-weight: normal !important;
+}
+
+.data-table tr:hover td:not(.expense) {
+    color: #2c3e50 !important;
 }

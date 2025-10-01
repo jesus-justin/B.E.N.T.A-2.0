@@ -3,6 +3,10 @@ require '../config/config.php';
 
 $errors = [];
 
+// Google reCAPTCHA configuration
+$recaptcha_site_key = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'; // Test key - replace with your actual site key
+$recaptcha_secret_key = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'; // Test key - replace with your actual secret key
+
 // Redirect if already logged in
 if (!empty($_SESSION['user_id'])) {
     header('Location: dashboard.php');
@@ -23,10 +27,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
+    $recaptcha_response = $_POST['g-recaptcha-response'] ?? '';
     
     if (empty($username) || empty($password)) {
         $errors[] = 'Please enter both username and password.';
+    } elseif (empty($recaptcha_response)) {
+        $errors[] = 'Please complete the reCAPTCHA verification.';
     } else {
+        // Verify reCAPTCHA
+        $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
+        $recaptcha_data = [
+            'secret' => $recaptcha_secret_key,
+            'response' => $recaptcha_response,
+            'remoteip' => $_SERVER['REMOTE_ADDR']
+        ];
+        
+        $recaptcha_options = [
+            'http' => [
+                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method' => 'POST',
+                'content' => http_build_query($recaptcha_data)
+            ]
+        ];
+        
+        $recaptcha_context = stream_context_create($recaptcha_options);
+        $recaptcha_result = file_get_contents($recaptcha_url, false, $recaptcha_context);
+        $recaptcha_json = json_decode($recaptcha_result);
+        
+        if (!$recaptcha_json->success) {
+            $errors[] = 'reCAPTCHA verification failed. Please try again.';
+        } else {
         // Check user credentials
         $stmt = $pdo->prepare("SELECT id, username, password FROM users WHERE username = ? OR email = ?");
         $stmt->execute([$username, $username]);
@@ -44,8 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[] = 'Invalid username/email or password.';
             throttle_hit('user_login');
         }
-    }
-}
+        } // end credential check else branch
+    } // end reCAPTCHA else branch
+} // end main POST handler
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,6 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/login.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
     <div class="login-container">
@@ -99,6 +131,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <button type="button" class="password-toggle" onclick="togglePassword()">
                         <i class="fas fa-eye" id="passwordToggleIcon"></i>
                     </button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="recaptcha">Security Verification</label>
+                <div class="recaptcha-wrapper">
+                    <div class="g-recaptcha" data-sitekey="<?= $recaptcha_site_key ?>"></div>
                 </div>
             </div>
             
