@@ -1,4 +1,3 @@
-/* Add Transaction Page Styles - Extracted from add_transaction.php */
 
 /* Enhanced form styles */
 .form-group label {
@@ -100,20 +99,7 @@
     min-width: 150px;
 }
 
-.btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
 
-.btn:hover::before {
-    left: 100%;
-}
 
 .btn-primary {
     background: var(--primary-gradient);
@@ -162,16 +148,98 @@
     to { transform: rotate(360deg); }
 }
 
-/* Dark mode support */
-.dark-mode .input-wrapper input,
-.dark-mode .input-wrapper select {
-    background: #4a5568;
-    border-color: var(--border-color);
-    color: var(--dark-text);
+
+
+.btn::before {
+     content: '';
+     position: absolute;
+     top: 0;
+     left: -75%;
+     width: 50%;
+     height: 100%;
+     background: linear-gradient(120deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.15) 100%);
+     transform: skewX(-20deg);
+     transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+     pointer-events: none;
+     z-index: 1;
 }
 
-.dark-mode .input-wrapper input:focus,
-.dark-mode .input-wrapper select:focus {
-    border-color: var(--primary-color);
-    background: #2d3748;
+.btn:hover::before {
+     left: 120%;
+     transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* ...existing code... */
+/* Add Transaction Page Styles */
+/* Header styles copied and adapted from add-expense.css for consistency */
+
+.topbar {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+     color: #fff;
+     padding: 1.25rem 2rem 1.25rem 2rem;
+     border-radius: 0 0 16px 16px;
+     box-shadow: 0 2px 8px rgba(102, 126, 234, 0.08);
+     margin-bottom: 2rem;
+     font-size: 1.1rem;
+     font-weight: 600;
+     letter-spacing: 1px;
+     position: relative;
+     z-index: 10;
+}
+
+.topbar strong {
+     font-weight: 800;
+     letter-spacing: 2px;
+     color: #fff;
+}
+
+.topbar nav {
+     display: flex;
+     gap: 1.5rem;
+}
+
+.topbar nav a {
+     color: #fff;
+     text-decoration: none;
+     font-weight: 500;
+     font-size: 1rem;
+     padding: 0.5rem 1rem;
+     border-radius: 8px;
+     transition: background 0.2s, color 0.2s;
+}
+
+.topbar nav a:hover,
+.topbar nav a.active {
+     background: rgba(255,255,255,0.15);
+     color: #fff;
+}
+
+/* Responsive header */
+@media (max-width: 768px) {
+     .topbar {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 1rem 1rem 1.25rem 1rem;
+          font-size: 1rem;
+     }
+     .topbar nav {
+          gap: 1rem;
+          margin-top: 0.5rem;
+     }
+}
+
+@media (max-width: 480px) {
+     .topbar {
+          padding: 0.75rem 0.5rem 1rem 0.5rem;
+          font-size: 0.95rem;
+     }
+     .topbar nav a {
+          font-size: 0.95rem;
+          padding: 0.4rem 0.7rem;
+     }
+}
+
+/* ...existing code... */

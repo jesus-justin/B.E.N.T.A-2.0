@@ -103,8 +103,6 @@ $cats = $pdo->query("SELECT * FROM categories WHERE type='income' ORDER BY name"
                     <div class="field-help">Optional: Brief description of the transaction</div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="date">
                         <i class="fas fa-calendar-alt"></i>
                         Date
                     </label>
