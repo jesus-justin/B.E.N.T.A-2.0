@@ -1,0 +1,324 @@
+/* Edit Transaction Page Styles */
+/* Maintains same design as add-transaction.css with edit-specific enhancements */
+
+/* Enhanced form styles for editing */
+.form-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group label i {
+    color: var(--primary-color);
+    font-size: 0.9rem;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper input,
+.input-wrapper select {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 400;
+    background: white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: inherit;
+}
+
+.input-wrapper input:focus,
+.input-wrapper select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    transform: translateY(-2px);
+}
+
+.input-wrapper input.error,
+.input-wrapper select.error {
+    border-color: var(--error-color);
+    box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.1);
+}
+
+.field-error {
+    color: var(--error-color);
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    display: none;
+    animation: slideDown 0.3s ease-out;
+}
+
+.field-help {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form styling specific to edit operations */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.875rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--dark-text);
+    font-size: 0.9rem;
+}
+
+/* Edit-specific enhancements */
+.edit-notice {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border-left: 4px solid var(--primary-color);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0 8px 8px 0;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.edit-notice .icon {
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.original-values {
+    background: var(--light-bg);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: var(--light-text);
+}
+
+.value-comparison {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.value-comparison:last-child {
+    border-bottom: none;
+}
+
+.old-value {
+    color: var(--light-text);
+    text-decoration: line-through;
+}
+
+.new-value {
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+/* Form actions */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    min-width: 150px;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn-primary {
+    background: var(--primary-gradient);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-secondary {
+    background: var(--text-secondary);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: var(--text-primary);
+    transform: translateY(-3px);
+}
+
+.btn.loading {
+    pointer-events: none;
+}
+
+.btn.loading .btn-text {
+    opacity: 0.7;
+}
+
+.btn-loader {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.btn.loading .btn-loader {
+    display: inline-block;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Transaction-specific styling */
+.transaction-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: var(--light-bg);
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.transaction-id {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.transaction-created {
+    color: var(--light-text);
+}
+
+/* Dark mode support */
+.dark-mode .input-wrapper input,
+.dark-mode .input-wrapper select {
+    background: #4a5568;
+    border-color: var(--border-color);
+    color: var(--dark-text);
+}
+
+.dark-mode .input-wrapper input:focus,
+.dark-mode .input-wrapper select:focus {
+    border-color: var(--primary-color);
+    background: #2d3748;
+}
+
+.dark-mode .edit-notice {
+    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+    color: var(--dark-text);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .btn {
+        width: 100%;
+        padding: 1rem;
+    }
+    
+    .transaction-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+    
+    .value-comparison {
+        flex-direction: column;
+        gap: 0.25rem;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .edit-notice {
+        margin: 0 -1rem 1.5rem -1rem;
+        border-radius: 0;
+        border-left: none;
+        border-top: 4px solid var(--primary-color);
+    }
+    
+    .original-values {
+        margin: 0 -1rem 1rem -1rem;
+        border-radius: 0;
+    }
+}

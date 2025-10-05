@@ -1,11 +1,11 @@
 <?php
-require 'config.php';
+require 'config/config.php';
 
 // Redirect based on login status
 if (!empty($_SESSION['user_id'])) {
-    header('Location: dashboard.php');
+    header('Location: user/dashboard.php');
 } else {
-    header('Location: login.php');
+    header('Location: auth/login.php');
 }
 exit;
 ?>

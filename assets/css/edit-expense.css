@@ -1,0 +1,341 @@
+/* Edit Expense Page Styles */
+/* Maintains same design patterns with expense-specific enhancements */
+
+/* Form styling consistent with other edit pages */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--dark-text);
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.875rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Enhanced error styling */
+.errors {
+    background: var(--error-color);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+/* Edit-specific enhancements for expenses */
+.expense-edit-header {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+    border-left: 4px solid var(--warning-color);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0 8px 8px 0;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.expense-edit-header .icon {
+    color: var(--warning-color);
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+}
+
+/* Expense-specific form enhancements */
+.vendor-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 2px solid var(--border-color);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+}
+
+.vendor-suggestion {
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.vendor-suggestion:hover {
+    background: var(--light-bg);
+}
+
+.vendor-suggestion:last-child {
+    border-bottom: none;
+}
+
+/* Amount input styling specific to expenses */
+.amount-input-wrapper {
+    position: relative;
+}
+
+.amount-input-wrapper::before {
+    content: '₱';
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--light-text);
+    font-weight: bold;
+    z-index: 1;
+}
+
+.amount-input-wrapper input {
+    padding-left: 2.5rem;
+}
+
+/* Expense category styling */
+.category-selector {
+    position: relative;
+}
+
+.category-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.category-food { background: #fff3e0; color: #f57c00; }
+.category-transport { background: #e3f2fd; color: #1976d2; }
+.category-utilities { background: #f3e5f5; color: #7b1fa2; }
+.category-entertainment { background: #e8f5e8; color: #388e3c; }
+.category-other { background: #fafafa; color: #616161; }
+
+/* Recent expense quick-fill */
+.recent-expenses {
+    background: var(--light-bg);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.recent-expenses h4 {
+    margin: 0 0 0.75rem 0;
+    color: var(--dark-text);
+    font-size: 0.9rem;
+}
+
+.recent-expense-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+.recent-expense-item:hover {
+    background: rgba(102, 126, 234, 0.1);
+}
+
+.recent-expense-vendor {
+    font-weight: 600;
+}
+
+.recent-expense-amount {
+    color: var(--error-color);
+    font-weight: bold;
+}
+
+/* Form actions */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+/* Button styling consistent with other pages */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    min-width: 150px;
+}
+
+.btn-primary {
+    background: var(--primary-gradient);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-secondary {
+    background: var(--text-secondary);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: var(--text-primary);
+    transform: translateY(-3px);
+}
+
+/* Simple layout for edit_expense.php's minimal structure */
+.simple-form {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.simple-form h2 {
+    margin-bottom: 1.5rem;
+    color: var(--dark-text);
+    text-align: center;
+}
+
+.simple-form label {
+    display: block;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: var(--dark-text);
+}
+
+.simple-form input,
+.simple-form select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    margin-top: 0.25rem;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.simple-form input:focus,
+.simple-form select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.simple-form button {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    padding: 0.875rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-right: 1rem;
+}
+
+.simple-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.simple-form a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 0.875rem 1.5rem;
+    transition: color 0.3s;
+}
+
+.simple-form a:hover {
+    color: var(--primary-color);
+}
+
+/* Dark mode support */
+.dark-mode .vendor-suggestions {
+    background: #2d3748;
+    border-color: var(--border-color);
+}
+
+.dark-mode .vendor-suggestion:hover {
+    background: #4a5568;
+}
+
+.dark-mode .simple-form {
+    background: #2d3748;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .btn {
+        width: 100%;
+        padding: 1rem;
+    }
+    
+    .recent-expenses {
+        margin: 0 -1rem 1.5rem -1rem;
+        border-radius: 0;
+    }
+    
+    .simple-form {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .expense-edit-header {
+        margin: 0 -1rem 1.5rem -1rem;
+        border-radius: 0;
+        border-left: none;
+        border-top: 4px solid var(--warning-color);
+    }
+    
+    .recent-expense-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+}

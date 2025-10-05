@@ -1,0 +1,481 @@
+/* KPI Cards Component - Dashboard Style with Advanced Animations */
+/* Enhanced KPI cards matching dashboard.php design with comprehensive animations */
+
+/* KPI Grid Layout */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    animation: staggeredFadeIn 1s ease-out;
+}
+
+/* Base KPI Card */
+.kpi-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.8s ease-out;
+    cursor: pointer;
+}
+
+.kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), #8b5cf6);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.kpi-card:hover::before {
+    transform: scaleX(1);
+}
+
+.kpi-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+    border-color: var(--primary-color);
+}
+
+/* KPI Card Variants */
+.kpi-card.total-revenue {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+}
+
+.kpi-card.total-revenue::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.kpi-card.total-expenses {
+    background: linear-gradient(135deg, #ffffff 0%, #fef2f2 100%);
+}
+
+.kpi-card.total-expenses::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(239, 68, 68, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.kpi-card.net-income {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.kpi-card.net-income::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.kpi-card.savings-rate {
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+}
+
+.kpi-card.savings-rate::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* KPI Header */
+.kpi-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.kpi-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--dark-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+    opacity: 0.8;
+}
+
+.kpi-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.kpi-card.total-revenue .kpi-icon {
+    background: linear-gradient(135deg, var(--success-color), #10b981);
+    animation: pulseGreen 2s infinite;
+}
+
+.kpi-card.total-expenses .kpi-icon {
+    background: linear-gradient(135deg, var(--error-color), #dc2626);
+    animation: pulseRed 2s infinite;
+}
+
+.kpi-card.net-income .kpi-icon {
+    background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+    animation: pulseBlue 2s infinite;
+}
+
+.kpi-card.savings-rate .kpi-icon {
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    animation: pulsePurple 2s infinite;
+}
+
+.kpi-card:hover .kpi-icon {
+    transform: rotate(10deg) scale(1.1);
+}
+
+/* KPI Value */
+.kpi-value {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 2;
+    animation: numberCounter 1s ease-out;
+}
+
+.kpi-card.total-revenue .kpi-value {
+    color: var(--success-color);
+    text-shadow: 0 2px 4px rgba(34, 197, 94, 0.2);
+}
+
+.kpi-card.total-expenses .kpi-value {
+    color: var(--error-color);
+    text-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+}
+
+.kpi-card.net-income .kpi-value {
+    color: var(--primary-color);
+    text-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
+}
+
+.kpi-card.savings-rate .kpi-value {
+    color: #a855f7;
+    text-shadow: 0 2px 4px rgba(168, 85, 247, 0.2);
+}
+
+/* KPI Trend */
+.kpi-trend {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    position: relative;
+    z-index: 2;
+    animation: slideInFromBottom 0.8s ease-out 0.3s both;
+}
+
+.trend-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.trend-up {
+    color: var(--success-color);
+}
+
+.trend-up .trend-icon {
+    background: rgba(34, 197, 94, 0.1);
+    animation: bounceUp 1s ease-out;
+}
+
+.trend-down {
+    color: var(--error-color);
+}
+
+.trend-down .trend-icon {
+    background: rgba(239, 68, 68, 0.1);
+    animation: bounceDown 1s ease-out;
+}
+
+.trend-neutral {
+    color: var(--light-text);
+}
+
+.trend-neutral .trend-icon {
+    background: rgba(156, 163, 175, 0.1);
+}
+
+/* KPI Description */
+.kpi-description {
+    font-size: 0.85rem;
+    color: var(--light-text);
+    margin-top: 0.75rem;
+    line-height: 1.4;
+    position: relative;
+    z-index: 2;
+    animation: fadeIn 0.8s ease-out 0.5s both;
+}
+
+/* KPI Period Info */
+.kpi-period {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(102, 126, 234, 0.1);
+    color: var(--primary-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    animation: slideInFromRight 0.6s ease-out 0.2s both;
+}
+
+/* Advanced KPI Features */
+.kpi-details {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(102, 126, 234, 0.1);
+    position: relative;
+    z-index: 2;
+}
+
+.kpi-breakdown {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.breakdown-label {
+    color: var(--light-text);
+    font-weight: 500;
+}
+
+.breakdown-value {
+    color: var(--dark-text);
+    font-weight: 600;
+}
+
+/* Mini Progress Bar */
+.kpi-progress {
+    height: 4px;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.kpi-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), #8b5cf6);
+    border-radius: 2px;
+    transition: width 1s ease-out;
+    animation: progressFill 1.5s ease-out 0.5s both;
+}
+
+/* Animations */
+@keyframes staggeredFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromBottom {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes numberCounter {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes bounceUp {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
+@keyframes bounceDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(4px); }
+}
+
+@keyframes pulseGreen {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+}
+
+@keyframes pulseRed {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+}
+
+@keyframes pulseBlue {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(102, 126, 234, 0); }
+}
+
+@keyframes pulsePurple {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(168, 85, 247, 0); }
+}
+
+@keyframes progressFill {
+    from { width: 0%; }
+    to { width: var(--progress-width, 75%); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Enhanced Hover Effects */
+.kpi-card:hover .kpi-value {
+    animation: valueGlow 0.5s ease-out;
+}
+
+@keyframes valueGlow {
+    0%, 100% { text-shadow: inherit; }
+    50% { text-shadow: 0 0 20px currentColor; }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+    
+    .kpi-card {
+        padding: 1.5rem;
+    }
+    
+    .kpi-value {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .kpi-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .kpi-card {
+        padding: 1.25rem;
+    }
+    
+    .kpi-value {
+        font-size: 2rem;
+    }
+    
+    .kpi-header {
+        margin-bottom: 1rem;
+    }
+    
+    .kpi-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .kpi-card {
+        padding: 1rem;
+    }
+    
+    .kpi-value {
+        font-size: 1.75rem;
+    }
+    
+    .kpi-title {
+        font-size: 0.8rem;
+    }
+    
+    .kpi-trend {
+        font-size: 0.8rem;
+    }
+    
+    .kpi-period {
+        position: static;
+        margin-bottom: 1rem;
+        display: inline-block;
+    }
+}

@@ -1,0 +1,661 @@
+/* Business Insights Component - Dashboard Style with AI-Powered Animations */
+/* AI-powered insights and recommendations matching dashboard.php design with advanced animations */
+
+/* Insights Main Container */
+.insights-section {
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.insights-container {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    overflow: hidden;
+    position: relative;
+    animation: slideInFromBottom 0.8s ease-out;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.insights-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #8b5cf6, var(--primary-color), #10b981);
+    background-size: 200% 100%;
+    animation: aiGradientFlow 6s ease-in-out infinite;
+}
+
+.insights-container:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 50px rgba(139, 92, 246, 0.2);
+}
+
+/* Insights Header */
+.insights-header {
+    padding: 2rem;
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    border-bottom: 2px solid rgba(139, 92, 246, 0.1);
+    position: relative;
+    animation: slideInFromTop 0.6s ease-out 0.2s both;
+}
+
+.insights-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+    animation: headerGlow 3s ease-in-out infinite;
+}
+
+.insights-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--dark-text);
+    margin: 0 0 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.insights-ai-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #8b5cf6, #a855f7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.1rem;
+    animation: aiPulse 2s infinite;
+    position: relative;
+}
+
+.insights-ai-icon::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #8b5cf6, #a855f7, #8b5cf6);
+    border-radius: 12px;
+    z-index: -1;
+    animation: aiIconGlow 3s ease-in-out infinite;
+}
+
+.insights-subtitle {
+    color: var(--light-text);
+    font-size: 0.95rem;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* AI Status Indicator */
+.ai-status {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: slideInFromRight 0.6s ease-out 0.3s both;
+}
+
+.ai-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    animation: aiHeartbeat 2s infinite;
+}
+
+.ai-status-text {
+    font-size: 0.8rem;
+    color: var(--success-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Insights Grid */
+.insights-grid {
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+    animation: insightsReveal 1s ease-out 0.5s both;
+}
+
+/* Individual Insight Card */
+.insight-card {
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(139, 92, 246, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    animation: insightCardSlideIn 0.8s ease-out both;
+}
+
+.insight-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #8b5cf6, #a855f7);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.4s ease;
+}
+
+.insight-card:hover::before {
+    transform: scaleY(1);
+}
+
+.insight-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 35px rgba(139, 92, 246, 0.2);
+    border-color: #8b5cf6;
+}
+
+/* Insight Types */
+.insight-card.trend {
+    border-left: 4px solid #3b82f6;
+}
+
+.insight-card.opportunity {
+    border-left: 4px solid #10b981;
+}
+
+.insight-card.warning {
+    border-left: 4px solid #f59e0b;
+}
+
+.insight-card.critical {
+    border-left: 4px solid #ef4444;
+}
+
+/* Insight Header */
+.insight-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.insight-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.9rem;
+    animation: insightIconFloat 3s ease-in-out infinite;
+}
+
+.insight-card.trend .insight-icon {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+
+.insight-card.opportunity .insight-icon {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.insight-card.warning .insight-icon {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.insight-card.critical .insight-icon {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.insight-category {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.insight-card.trend .insight-category {
+    color: #3b82f6;
+}
+
+.insight-card.opportunity .insight-category {
+    color: #10b981;
+}
+
+.insight-card.warning .insight-category {
+    color: #f59e0b;
+}
+
+.insight-card.critical .insight-category {
+    color: #ef4444;
+}
+
+/* Insight Content */
+.insight-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--dark-text);
+    margin: 0 0 0.75rem 0;
+    line-height: 1.4;
+}
+
+.insight-description {
+    color: var(--light-text);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.insight-value {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.insight-amount {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.insight-change {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+}
+
+.insight-change.positive {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.insight-change.negative {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+/* Insight Actions */
+.insight-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.insight-action-btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid rgba(139, 92, 246, 0.2);
+    background: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--dark-text);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.insight-action-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s;
+}
+
+.insight-action-btn:hover::before {
+    left: 100%;
+}
+
+.insight-action-btn:hover {
+    background: #8b5cf6;
+    color: white;
+    border-color: #8b5cf6;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
+}
+
+/* AI Recommendations Section */
+.ai-recommendations {
+    background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+    padding: 2rem;
+    border-top: 1px solid rgba(139, 92, 246, 0.1);
+    animation: slideInFromBottom 0.6s ease-out 0.7s both;
+}
+
+.recommendations-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--dark-text);
+    margin: 0 0 1.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.recommendations-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.recommendation-item {
+    background: white;
+    padding: 1.25rem;
+    border-radius: 12px;
+    border: 1px solid rgba(139, 92, 246, 0.1);
+    transition: all 0.3s ease;
+    animation: recommendationSlideIn 0.6s ease-out both;
+    position: relative;
+}
+
+.recommendation-item:hover {
+    transform: translateX(8px);
+    box-shadow: 0 6px 25px rgba(139, 92, 246, 0.15);
+    border-color: #8b5cf6;
+}
+
+.recommendation-priority {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    animation: priorityPulse 2s infinite;
+}
+
+.recommendation-priority.high {
+    background: #ef4444;
+}
+
+.recommendation-priority.medium {
+    background: #f59e0b;
+}
+
+.recommendation-priority.low {
+    background: #10b981;
+}
+
+.recommendation-text {
+    color: var(--dark-text);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* AI Loading State */
+.insights-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem;
+    background: white;
+}
+
+.ai-loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    color: var(--light-text);
+}
+
+.ai-loading-brain {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(139, 92, 246, 0.2);
+    border-top: 4px solid #8b5cf6;
+    border-radius: 50%;
+    animation: aiThinking 1.5s linear infinite;
+    position: relative;
+}
+
+.ai-loading-brain::after {
+    content: '🧠';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    animation: brainPulse 2s infinite;
+}
+
+.ai-loading-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromBottom {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes insightsReveal {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes insightCardSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes recommendationSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes aiGradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes aiPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(139, 92, 246, 0); }
+}
+
+@keyframes aiIconGlow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+@keyframes aiHeartbeat {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.2); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.1); }
+}
+
+@keyframes headerGlow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+@keyframes insightIconFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+@keyframes priorityPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+}
+
+@keyframes aiThinking {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes brainPulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .insights-grid {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+    }
+    
+    .insights-header,
+    .ai-recommendations {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .insights-container {
+        border-radius: 12px;
+    }
+    
+    .insights-header,
+    .ai-recommendations {
+        padding: 1rem;
+    }
+    
+    .insights-grid {
+        padding: 1rem;
+        gap: 1rem;
+    }
+    
+    .ai-status {
+        position: static;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    
+    .insight-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .insight-action-btn {
+        text-align: center;
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .insights-header,
+    .ai-recommendations {
+        padding: 0.75rem;
+    }
+    
+    .insights-title {
+        font-size: 1.2rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .insight-card {
+        padding: 1rem;
+    }
+    
+    .insight-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .recommendation-item {
+        padding: 1rem;
+    }
+    
+    .recommendation-priority {
+        position: static;
+        margin-bottom: 0.5rem;
+        align-self: flex-start;
+    }
+}

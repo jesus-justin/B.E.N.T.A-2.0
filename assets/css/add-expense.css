@@ -1,0 +1,419 @@
+/* Add Expense Page Styles */
+/* Maintains same design consistency as add-transaction.css with expense-specific features */
+
+/* Enhanced form styles for adding expenses */
+.form-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group label i {
+    color: var(--error-color); /* Using error color for expense-related icons */
+    font-size: 0.9rem;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper input,
+.input-wrapper select {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 400;
+    background: white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: inherit;
+}
+
+.input-wrapper input:focus,
+.input-wrapper select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    transform: translateY(-2px);
+}
+
+.input-wrapper input.error,
+.input-wrapper select.error {
+    border-color: var(--error-color);
+    box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.1);
+}
+
+/* Expense-specific form styling */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.875rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--dark-text);
+    font-size: 0.9rem;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+/* Expense category enhancements */
+.expense-categories {
+    background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+    border-left: 4px solid var(--error-color);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0 8px 8px 0;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.category-quick-select {
+    padding: 0.5rem;
+    background: white;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.category-quick-select:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.category-quick-select.selected {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Amount input with currency symbol */
+.amount-group {
+    position: relative;
+}
+
+.amount-group::before {
+    content: '₱';
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--error-color);
+    font-weight: bold;
+    font-size: 1.1rem;
+    z-index: 1;
+}
+
+.amount-group input {
+    padding-left: 2.5rem;
+    font-weight: 600;
+    color: var(--error-color);
+}
+
+/* Vendor autocomplete */
+.vendor-autocomplete {
+    position: relative;
+}
+
+.vendor-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 2px solid var(--border-color);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+}
+
+.vendor-suggestion {
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vendor-suggestion:hover {
+    background: var(--light-bg);
+}
+
+.vendor-frequency {
+    font-size: 0.8rem;
+    color: var(--light-text);
+    background: var(--light-bg);
+    padding: 0.2rem 0.4rem;
+    border-radius: 10px;
+}
+
+/* Quick expense templates */
+.expense-templates {
+    background: var(--light-bg);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.expense-templates h4 {
+    margin: 0 0 0.75rem 0;
+    color: var(--dark-text);
+    font-size: 0.9rem;
+}
+
+.template-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.template-btn {
+    padding: 0.5rem 0.75rem;
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s;
+}
+
+.template-btn:hover {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Form actions */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    min-width: 150px;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn-primary {
+    background: var(--primary-gradient);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-secondary {
+    background: var(--text-secondary);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: var(--text-primary);
+    transform: translateY(-3px);
+}
+
+.btn.loading {
+    pointer-events: none;
+}
+
+.btn.loading .btn-text {
+    opacity: 0.7;
+}
+
+.btn-loader {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.btn.loading .btn-loader {
+    display: inline-block;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Field validation and help */
+.field-error {
+    color: var(--error-color);
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    display: none;
+    animation: slideDown 0.3s ease-out;
+}
+
+.field-help {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Dark mode support */
+.dark-mode .input-wrapper input,
+.dark-mode .input-wrapper select {
+    background: #4a5568;
+    border-color: var(--border-color);
+    color: var(--dark-text);
+}
+
+.dark-mode .input-wrapper input:focus,
+.dark-mode .input-wrapper select:focus {
+    border-color: var(--primary-color);
+    background: #2d3748;
+}
+
+.dark-mode .vendor-suggestions {
+    background: #2d3748;
+    border-color: var(--border-color);
+}
+
+.dark-mode .vendor-suggestion:hover {
+    background: #4a5568;
+}
+
+.dark-mode .category-quick-select {
+    background: #4a5568;
+    color: var(--dark-text);
+}
+
+.dark-mode .template-btn {
+    background: #4a5568;
+    color: var(--dark-text);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .btn {
+        width: 100%;
+        padding: 1rem;
+    }
+    
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .template-buttons {
+        justify-content: center;
+    }
+    
+    .expense-categories,
+    .expense-templates {
+        margin: 0 -1rem 1.5rem -1rem;
+        border-radius: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .template-buttons {
+        flex-direction: column;
+    }
+    
+    .template-btn {
+        text-align: center;
+    }
+    
+    .vendor-suggestion {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+}
