@@ -39,12 +39,26 @@ $cats = $pdo->query("SELECT * FROM categories WHERE type='income' ORDER BY name"
 </head>
 <body>
     <header class="topbar">
-        <div><strong>BENTA</strong> - Add Transaction</div>
-        <nav>
-            <a href="dashboard.php">Dashboard</a>
-            <a href="expenses.php">Expenses</a>
-            <a href="reports.php">Reports</a>
-            <a href="logout.php">Logout</a>
+        <div class="topbar-brand">
+            <strong>BENTA</strong> - Add Transaction
+        </div>
+        <nav class="topbar-nav">
+            <a href="dashboard.php" class="nav-link">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="expenses.php" class="nav-link">
+                <i class="fas fa-receipt"></i>
+                <span>Expenses</span>
+            </a>
+            <a href="reports.php" class="nav-link">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reports</span>
+            </a>
+            <a href="logout.php" class="nav-link logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
         </nav>
     </header>
     
@@ -130,7 +144,6 @@ $cats = $pdo->query("SELECT * FROM categories WHERE type='income' ORDER BY name"
     </main>
     
     <script src="../assets/js/animations.js"></script>
-    <script src="../assets/js/dark-mode.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('transactionForm');
