@@ -261,7 +261,11 @@ $expensesCount = $totalExpensesCount->fetchColumn();
                                 <td class="income">₱<?= number_format($t['amount'], 2) ?></td>
                                 <td>
                                     <a href="edit_transaction.php?id=<?= e($t['id']) ?>" class="btn btn-sm btn-info">Edit</a>
-                                    <a href="delete_transaction.php?id=<?= e($t['id']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this transaction?')">Delete</a>
+                                    <form action="delete_transaction.php" method="post" style="display:inline" onsubmit="return confirm('Delete this transaction?')">
+                                        <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                                        <input type="hidden" name="id" value="<?= e($t['id']) ?>">
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
@@ -302,7 +306,11 @@ $expensesCount = $totalExpensesCount->fetchColumn();
                                 <td class="expense">₱<?= number_format($e['amount'], 2) ?></td>
                                 <td>
                                     <a href="edit_expense.php?id=<?= e($e['id']) ?>" class="btn btn-sm btn-info">Edit</a>
-                                    <a href="delete_expense.php?id=<?= e($e['id']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this expense?')">Delete</a>
+                                    <form action="delete_expense.php" method="post" style="display:inline" onsubmit="return confirm('Delete this expense?')">
+                                        <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                                        <input type="hidden" name="id" value="<?= e($e['id']) ?>">
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                             <?php endforeach; ?>

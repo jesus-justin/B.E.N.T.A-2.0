@@ -4,8 +4,8 @@ if (empty($_SESSION['user_id'])) header('Location: ../auth/login.php');
 $uid = $_SESSION['user_id'];
 
 // date range defaults (last 6 months)
-$from = isset($_GET['from']) ? $_GET['from'] : date('Y-m-d', strtotime('-5 months'));
-$to   = isset($_GET['to']) ? $_GET['to'] : date('Y-m-d');
+$from = $_GET['from'] ?? date('Y-m-d', strtotime('-5 months'));
+$to   = $_GET['to']   ?? date('Y-m-d');
 
 // totals
 $totalIncome = $pdo->prepare("SELECT COALESCE(SUM(amount),0) FROM transactions WHERE user_id = ? AND trx_date BETWEEN ? AND ?");
@@ -57,9 +57,7 @@ if (empty($months)) {
     ];
 }
 
-$labels = array_map(function($ym) {
-    return date('M d, Y', strtotime($ym . '-01'));
-}, array_keys($months));
+$labels = array_keys($months);
 $incomeData = array_map(fn($m)=>$m['income'],$months);
 $expenseData = array_map(fn($m)=>$m['expense'],$months);
 ?>
